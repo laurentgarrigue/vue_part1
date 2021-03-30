@@ -1,0 +1,76 @@
+version: "3"
+
+services:
+  node:
+    env_file: .env.local
+    image: project/node:14-alpine
+    build:
+      context: ./
+      dockerfile: ./docker/adsl/node/Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    links:
+      - web
+
+  web:
+    env_file: .env.local
+    image: project/web:10
+    build:
+      context: ./docker/adsl/web
+      dockerfile: Dockerfile
+      args:
+        - DEVUID=${DEVUID}
+    environment:
+      - DEVUID=${DEVUID}
+    ports:
+      - "80:80"
+    volumes:
+      - .:/var/www/html
+      - ./docker/adsl/web/php_custom.ini:/etc/php/7.0/apache2/conf.d/90-custom.ini
+      - ./docker/adsl/web/apache-vhost_000-default.conf:/etc/apache2/sites-enabled/000-default.conf
+    links:
+      - db
+      - mailcatcher
+
+  db:
+    env_file: .env.local
+    image: 'mariadb:latest'
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PWD}
+      MYSQL_DATABASE: ${DB_NAME}
+    ports:
+      - 3306:3306
+    volumes:
+      - mariadb10:/var/lib/mysql/data
+
+  # db:
+  #   image: project/db_postgre:11.9
+  #   env_file: .env.local
+  #   build:
+  #     context: ./docker/adsl/db
+  #     dockerfile: Dockerfile
+  #   environment:
+  #     - POSTGRES_USER=${DB_USER}
+  #     - POSTGRES_PASSWORD=${DB_PWD}
+  #     - POSTGRES_DB=${DB_NAME}
+  #   ports:
+  #     - "5432:5432"
+  #   volumes:
+  #     - ../scripts/sql/init-user-db.sh:/docker-entrypoint-initdb.d/1-init-user-db.sh
+  #     # - ../scripts/sql/structure.sql:/docker-entrypoint-initdb.d/2-structure.sql
+  #     # - ../scripts/sql/content.sql:/docker-entrypoint-initdb.d/3-content.sql
+  #     - pg11-9:/var/lib/postgresql/data
+  #     - "~/docker_mnt_local/${COMPOSE_PROJECT_NAME}/:/docker_mnt_local/"
+
+  mailcatcher:
+    env_file: .env.local
+    image: schickling/mailcatcher
+    ports:
+      - 1025:1025
+      - 1080:1080
+
+volumes:
+  # pg11-9:
+  mariadb10:
