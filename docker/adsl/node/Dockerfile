@@ -18,4 +18,4 @@ EXPOSE 8000
 COPY package.json ./
 
 # lance le serveur
-CMD [ "npm", "run", "dev"]
+CMD [ "npm", "run", "http-server"]

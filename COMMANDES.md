@@ -32,3 +32,7 @@ php bin/console do:fi:lo
 <!-- symfony serve --allow-http -d -->
 npm install
 npm run watch
+
+Ctrl + C
+npm i -D vue@^2.5 vue-loader@^15 vue-template-compiler
+npm run watch
