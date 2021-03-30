@@ -29,9 +29,7 @@
           </div>
         </div>
         <div class="row">
-          <span class="p-3">
-            Shipping takes 10-12 weeks, and products probably won't work
-          </span>
+          <legend-component :title="legend" />
         </div>
       </div>
     </div>
@@ -40,25 +38,30 @@
 
 <script>
 // import { defineComponent } from '@vue/composition-api'
+import legendComponent from "../components/legend";
+
 export default {
-    name: "Products",
-    data() {
-        return {
-            firstName: "Ryan",
-        };
-    },
+  name: "Products",
+  components: {
+    legendComponent,
+  },
+  data() {
+    return {
+      legend: "Shipping takes 10-12 weeks, and products probably won't work",
+    };
+  },
 };
 </script>
 
 <style lang="scss">
-    @import "../../scss/components/light-component.scss";
-    .sidebar {
-    @include light-component;
-    }
+@import "../../scss/components/light-component.scss";
+.sidebar {
+  @include light-component;
+}
 
-    ul {
-        li a:hover {
-            background: $blue-component-link-hover;
-        }
-    }
+ul {
+  li a:hover {
+    background: $blue-component-link-hover;
+  }
+}
 </style>
