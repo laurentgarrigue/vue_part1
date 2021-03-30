@@ -1,17 +1,8 @@
 import Vue from 'vue';
-
-const template = ` <h1>
-                Hello {{ firstName }} !
-            </h1>`;
+import App from './pages/products';
 
 const app = new Vue({
-    el: '#app',
-    data() {
-        return {
-            firstName: 'Ryan',
-        };
-    },
-    template: template,
-});
+    render: (h) => h(App),
+}).$mount('#app');
 
 window.app = app;
