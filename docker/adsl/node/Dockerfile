@@ -13,6 +13,7 @@ RUN npm install -g @vue/cli-service
 
 # Ouverture du port
 EXPOSE 8000
+EXPOSE 8080
 
 # copie 'package.json' et 'package-lock.json' (si disponible)
 COPY package.json ./
