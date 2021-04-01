@@ -13,8 +13,8 @@
 
 <script>
 // import { defineComponent } from '@vue/composition-api'
-import Catalog from '../components/catalog';
-import Sidebar from '../components/sidebar';
+import Catalog from '@/components/catalog';
+import Sidebar from '@/components/sidebar';
 
 export default {
     name: 'Products',
