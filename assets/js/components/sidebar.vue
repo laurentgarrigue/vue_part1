@@ -1,8 +1,8 @@
 <template>
     <div>
         <div :class="componentClass">
-            <h5 class="text-center">Categories</h5>
             <div v-show="!collapsed">
+                <h5 class="text-center">Categories</h5>
                 <ul class="nav flex-column mb4">
                     <li class="nav-item">
                         <a class="nav-link" href="/">All Products</a>
@@ -23,7 +23,7 @@
             <div class="d-flex justify-content-end">
                 <button
                     class="btn btn-secondary btn-sm"
-                    @click="toggleCollapsed"
+                    @click="$emit('toggle-collapsed')"
                     v-text="collapsed ? '>>' : '<< Collapse'"
                 />
             </div>
@@ -34,9 +34,14 @@
 <script>
 export default {
     name: 'Sidebar',
+    props: {
+        collapsed: {
+            type: Boolean,
+            required: true,
+        },
+    },
     data() {
         return {
-            collapsed: false,
             categories: [
                 {
                     name: 'Dot Matrix Printers',
@@ -62,13 +67,7 @@ export default {
 
 
     },
-    created() {
-        console.log(this.categories);
-    },
     methods: {
-        toggleCollapsed() {
-            this.collapsed = !this.collapsed;
-        },
     },
 };
 </script>
