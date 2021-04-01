@@ -78,10 +78,6 @@ export default {
 .component {
     @include light-component;
 
-    &.collapsed {
-        width: 70px;
-    }
-
     ul {
         li a:hover {
             background: $blue-component-link-hover;
