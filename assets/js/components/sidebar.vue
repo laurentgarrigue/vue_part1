@@ -9,13 +9,16 @@
                     </li>
 
                     <li
-                        v-for="(category, index) in categories"
-                        :key="index"
+                        v-for="category in categories"
+                        :key="category['@id']"
                         class="nav-item"
                     >
-                        <a class="nav-link" :href="category.link">{{
-                            category.name
-                        }}</a>
+                        <a
+                            class="nav-link"
+                            :href="`/category/${category.id}`"
+                        >
+                            {{ category.name }}
+                        </a>
                     </li>
                 </ul>
                 <hr>
@@ -32,6 +35,8 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
     name: 'Sidebar',
     props: {
@@ -42,16 +47,7 @@ export default {
     },
     data() {
         return {
-            categories: [
-                {
-                    name: 'Dot Matrix Printers',
-                    link: '#',
-                },
-                {
-                    name: 'Iomega Zip Drives',
-                    link: '#',
-                },
-            ],
+            categories: [],
         };
     },
     computed: {
@@ -63,9 +59,12 @@ export default {
             }
 
             return classes;
-        }
+        },
+    },
+    async mounted() {
+        const response = await axios.get('/api/categories');
 
-
+        this.categories = response.data['hydra:member'];
     },
     methods: {
     },
