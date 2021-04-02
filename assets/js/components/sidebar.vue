@@ -5,7 +5,13 @@
                 <h5 class="text-center">Categories</h5>
                 <ul class="nav flex-column mb4">
                     <li class="nav-item">
-                        <a class="nav-link" href="/">All Products</a>
+                        <a
+                            :class="{
+                                'nav-link': true,
+                                'selected': currentCategoryId === null,
+                            }"
+                            href="/"
+                        >All Products</a>
                     </li>
 
                     <li
@@ -14,7 +20,10 @@
                         class="nav-item"
                     >
                         <a
-                            class="nav-link"
+                            :class="{
+                                'nav-link': true,
+                                'selected': currentCategoryId === category['@id'],
+                            }"
                             :href="`/category/${category.id}`"
                         >
                             {{ category.name }}
@@ -51,6 +60,9 @@ export default {
         };
     },
     computed: {
+        currentCategoryId() {
+            return window.currentCategoryId;
+        },
         componentClass() {
             const classes = [this.$style.component, 'p-3', 'mb-5'];
 
@@ -74,12 +86,16 @@ export default {
 <style lang="scss" module>
 @import '~styles/components/light-component.scss';
 
-.component {
+.component :global {
     @include light-component;
 
     ul {
         li a:hover {
             background: $blue-component-link-hover;
+        }
+
+        li a.selected {
+            background: $light-component-border;
         }
     }
 }

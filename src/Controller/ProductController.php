@@ -8,6 +8,7 @@ use App\Entity\Product;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
+use ApiPlatform\Core\Api\IriConverterInterface;
 
 class ProductController extends AbstractController
 {
@@ -22,11 +23,12 @@ class ProductController extends AbstractController
     /**
      * @Route("/category/{id}", name="app_category")
      */
-    public function showCategory(Category $category): Response
+    public function showCategory(Category $category, IriConverterInterface $iriConverter): Response
     {
-        return $this->render('product/index.html.twig');
+        return $this->render('product/index.html.twig', [
+            'currentCategoryId' => $iriConverter->getIriFromItem($category),
+        ]);
     }
-
     /**
      * @Route("/product/{id}", name="app_product")
      */
