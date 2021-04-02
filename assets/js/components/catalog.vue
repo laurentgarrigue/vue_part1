@@ -25,6 +25,12 @@ export default {
         LegendComponent,
         ProductList,
     },
+    props: {
+        currentCategoryId: {
+            type: String,
+            default: null,
+        },
+    },
     data() {
         return {
             products: [],
@@ -32,8 +38,16 @@ export default {
                 "Shipping takes 10-12 weeks, and products probably won't work",
         };
     },
-    async mounted() {
-        const response = await axios.get('/api/products');
+    async created() {
+        const params = {};
+
+        if (this.currentCategoryId) {
+            params.category = this.currentCategoryId;
+        }
+
+        const response = await axios.get('/api/products', {
+            params,
+        });
 
         this.products = response.data['hydra:member'];
     },
