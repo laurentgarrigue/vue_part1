@@ -1,7 +1,14 @@
 <template>
     <div class="row">
+        <div class="col-12">
+            <div class="mt-4">
+                <loading v-show="products.length === 0" />
+            </div>
+        </div>
+
         <product-card
             v-for="product in products"
+            v-show="products.length > 0"
             :key="product['@id']"
             :product="product"
         />
@@ -9,12 +16,14 @@
 </template>
 
 <script>
-import productCard from '@/components/product-list/product-card.vue';
+import Loading from '@/components/loading';
+import ProductCard from '@/components/product-list/product-card.vue';
 
 export default {
     name: 'ProductList',
-    components: { 
-        productCard,
+    components: {
+        Loading,
+        ProductCard,
     },
     props: {
         products: {
