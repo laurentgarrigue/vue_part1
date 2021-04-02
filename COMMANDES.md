@@ -36,3 +36,7 @@ npm run watch
 Ctrl + C
 npm i -D vue@^2.5 vue-loader@^15 vue-template-compiler
 npm run watch
+
+Ctrl + C
+npm i -D axios
+npm run watch
