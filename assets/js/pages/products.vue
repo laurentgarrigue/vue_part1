@@ -4,6 +4,7 @@
             <aside :class="asideClass">
                 <sidebar
                     :collapsed="sidebarCollapsed"
+                    :current-category-id="currentCategoryId"
                     @toggle-collapsed="toggleSidebarCollapsed"
                 />
             </aside>
@@ -18,6 +19,7 @@
 // import { defineComponent } from '@vue/composition-api'
 import Catalog from '@/components/catalog';
 import Sidebar from '@/components/sidebar';
+import { getCurrentCategoryId } from '@/services/page-context';
 
 export default {
     name: 'Products',
@@ -31,6 +33,10 @@ export default {
         };
     },
     computed: {
+        currentCategoryId() {
+            return getCurrentCategoryId();
+        },
+
         asideClass() {
             return this.sidebarCollapsed ? 'aside-collapsed' : 'col-xs-12 col-3';
         },

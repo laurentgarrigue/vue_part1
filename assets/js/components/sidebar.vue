@@ -53,6 +53,10 @@ export default {
             type: Boolean,
             required: true,
         },
+        currentCategoryId: {
+            type: String,
+            default: null,
+        },
     },
     data() {
         return {
@@ -60,9 +64,6 @@ export default {
         };
     },
     computed: {
-        currentCategoryId() {
-            return window.currentCategoryId;
-        },
         componentClass() {
             const classes = [this.$style.component, 'p-3', 'mb-5'];
 
