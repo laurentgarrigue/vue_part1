@@ -2,7 +2,10 @@
     <div>
         <div :class="componentClass">
             <div v-show="!collapsed">
-                <h5 class="text-center">Categories</h5>
+                <h5 class="text-center">
+                    Categories
+                </h5>
+                <loading v-show="loading" />
                 <ul class="nav flex-column mb4">
                     <li class="nav-item">
                         <a
@@ -45,9 +48,13 @@
 
 <script>
 import axios from 'axios';
+import Loading from '@/components/loading';
 
 export default {
     name: 'Sidebar',
+    components: {
+        Loading,
+    },
     props: {
         collapsed: {
             type: Boolean,
@@ -64,6 +71,9 @@ export default {
         };
     },
     computed: {
+        loading() {
+            return this.categories.length === 0;
+        },
         componentClass() {
             const classes = [this.$style.component, 'p-3', 'mb-5'];
 
