@@ -48,7 +48,6 @@
 
 <script>
 import Loading from '@/components/loading';
-import { fetchCategories } from '@/services/categories-service';
 
 export default {
     name: 'Sidebar',
@@ -64,11 +63,10 @@ export default {
             type: String,
             default: null,
         },
-    },
-    data() {
-        return {
-            categories: [],
-        };
+        categories: {
+            type: Array,
+            required: true,
+        },
     },
     computed: {
         loading() {
@@ -83,11 +81,6 @@ export default {
 
             return classes;
         },
-    },
-    async created() {
-        const response = await fetchCategories();
-
-        this.categories = response.data['hydra:member'];
     },
     methods: {
     },
