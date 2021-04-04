@@ -1,4 +1,5 @@
 const Encore = require('@symfony/webpack-encore');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 
 // Manually configure the runtime environment if not already configured yet by the "encore" command.
@@ -85,6 +86,14 @@ Encore
 // uncomment if you use API Platform Admin (composer req api-admin)
 //.enableReactPreset()
 //.addEntry('admin', './assets/js/admin.js')
+
+// Je veux une single page indépendante de Symfony !!!
+    .addPlugin(new HtmlWebpackPlugin({
+        title: 'Ma Page',
+        filename: 'mapage.html',
+        template: 'assets/template.html',
+    }))
+
 ;
 
 module.exports = Encore.getWebpackConfig();

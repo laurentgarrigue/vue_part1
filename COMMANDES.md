@@ -40,3 +40,10 @@ npm run watch
 Ctrl + C
 npm i -D axios
 npm run watch
+
+
+Ctrl + C
+npm i -D html-webpack-plugin@4
+npm run watch
+
+
