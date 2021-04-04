@@ -36,14 +36,10 @@ export default {
         return {
             sidebarCollapsed: false,
             categories: [],
-
+            currentCategoryId: getCurrentCategoryId(),
         };
     },
     computed: {
-        currentCategoryId() {
-            return getCurrentCategoryId();
-        },
-
         asideClass() {
             return this.sidebarCollapsed ? 'aside-collapsed' : 'col-xs-12 col-3';
         },

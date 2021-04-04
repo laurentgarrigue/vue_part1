@@ -54,23 +54,31 @@ export default {
         return {
             products: [],
             loading: false,
+            searchTerm: null,
             legend:
                 "Shipping takes 10-12 weeks, and products probably won't work",
         };
     },
+    watch: {
+        currentCategoryId() {
+            this.searchTerm = null;
+            this.loadProducts();
+        },
+    },
     created() {
-        this.loadProducts(null);
+        this.loadProducts();
     },
     methods: {
         onSearchProducts({ term }) { // event.term
-            this.loadProducts(term);
+            this.searchTerm = term;
+            this.loadProducts();
         },
-        async loadProducts(searchTerm) {
+        async loadProducts() {
             this.loading = true;
 
             let response;
             try {
-                response = await fetchProducts(this.currentCategoryId, searchTerm);
+                response = await fetchProducts(this.currentCategoryId, this.searchTerm);
 
                 this.loading = false;
             } catch (e) {
