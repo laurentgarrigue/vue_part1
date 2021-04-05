@@ -97,8 +97,7 @@ export default {
                 return;
             }
             this.products = response.data['hydra:member'];
-
-        }
+        },
     },
 };
 </script>
