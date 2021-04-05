@@ -10,11 +10,9 @@
                 />
             </aside>
             <div :class="contentClass">
-                {{ currentProductId }}
-
-                <catalog
-                    :current-category-id="currentCategoryId"
-                    :categories="categories"
+                <component
+                    :is="currentComponent"
+                    v-bind="currentProps"
                 />
             </div>
         </div>
@@ -25,6 +23,7 @@
 // import { defineComponent } from '@vue/composition-api'
 import Catalog from '@/components/catalog';
 import Sidebar from '@/components/sidebar';
+import ProductShow from '@/components/product-show';
 import { getCurrentCategoryId, getCurrentProductId } from '@/services/page-context';
 import { fetchCategories } from '@/services/categories-service';
 
@@ -33,6 +32,7 @@ export default {
     components: {
         Catalog,
         Sidebar,
+        ProductShow,
     },
     data() {
         return {
@@ -50,6 +50,17 @@ export default {
         },
         currentProductId() {
             return getCurrentProductId();
+        },
+        currentComponent() {
+            return this.currentProductId !== null ? ProductShow : Catalog;
+        },
+        currentProps() {
+            return this.currentComponent === ProductShow ? {
+                productId: this.currentProductId,
+            } : {
+                currentCategoryId: this.currentCategoryId,
+                categories: this.categories,
+            };
         },
     },
     async created() {
