@@ -1,7 +1,7 @@
 <template>
     <div :class="$style.component">
         <h1>
-            {{ categoryName }}
+            {{ text }}
         </h1>
     </div>
 </template>
@@ -10,24 +10,10 @@
 export default {
     name: 'Title',
     props: {
-        currentCategoryId: {
+        text: {
             type: String,
-            default: null,
-        },
-        categories: {
-            type: Array,
             required: true,
         },
-    },
-    computed: {
-        categoryName() {
-            if (this.currentCategoryId === null) {
-                return 'All products';
-            }
-
-            const category = this.categories.find((cat) => (cat['@id'] === this.currentCategoryId));
-            return category ? category.name : '';
-        }
     },
 };
 </script>
