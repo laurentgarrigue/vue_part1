@@ -46,4 +46,6 @@ Ctrl + C
 npm i -D html-webpack-plugin@4
 npm run watch
 
+php bin/console make:migration
+php bin/console doctrine:migration:migrate
 
