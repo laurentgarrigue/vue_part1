@@ -24,7 +24,10 @@
             ${{ totalPrice }}
         </div>
         <div class="col-3">
-            <button class="btn btn-info btn-sm">
+            <button
+                class="btn btn-info btn-sm"
+                @click="$emit('removeFromCart')"
+            >
                 Remove
             </button>
         </div>
