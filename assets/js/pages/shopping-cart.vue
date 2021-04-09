@@ -12,6 +12,7 @@
                     <shopping-cart-list
                         v-if="completeCart"
                         :items="completeCart.items"
+                        @updateQuantity="updateQuantity"
                     />
                 </div>
             </div>
@@ -24,6 +25,7 @@ import TitleComponent from '@/components/title';
 import ShoppingCartMixin from '@/mixins/get-shopping-cart';
 import { fetchProductsById } from '@/services/products-service';
 import { fetchColors } from '@/services/colors-service';
+import { updateCartItemQuantity } from '@/services/cart-service';
 import ShoppingCartList from '@/components/shopping-cart';
 import Loading from '../components/loading.vue';
 
@@ -77,6 +79,9 @@ export default {
             const productIds = this.cart.items.map((item) => item.product);
             const productsResponse = await fetchProductsById(productIds);
             this.products = productsResponse.data['hydra:member'];
+        },
+        updateQuantity({ productId, colorId, quantity }) {
+            updateCartItemQuantity(this.cart, productId, colorId, quantity);
         },
     },
 };
