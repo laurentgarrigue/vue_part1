@@ -49,3 +49,6 @@ npm run watch
 php bin/console make:migration
 php bin/console doctrine:migration:migrate
 
+Ctrl + C
+npm i -D @fortawesome/fontawesome-free
+npm run watch
