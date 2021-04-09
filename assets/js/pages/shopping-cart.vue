@@ -2,28 +2,17 @@
     <div :class="[$style.component, 'container-fluid']">
         <div class="row">
             <aside class="col-xs-12 col-lg-3" />
+
             <div class="col-xs-12 col-lg-9">
                 <title-component text="Shopping Cart" />
+
                 <div class="content p-3">
                     <loading v-show="completeCart === null" />
-                    <div v-if="completeCart !== null">
-                        <div
-                            v-for="(cartItem, index) in completeCart.items"
-                            :key="index"
-                        >
-                            {{ cartItem.product.name }}
-                            <span
-                                v-if="cartItem.color"
-                                :title="cartItem.color.name"
-                                :style="{ backgroundColor: `#${cartItem.color.hexColor}` }"
-                            />
-                            ({{ cartItem.quantity }})
-                        </div>
 
-                        <div v-if="completeCart.items.length === 0">
-                            Your cart is empty! Get to shopping!
-                        </div>
-                    </div>
+                    <shopping-cart-list
+                        v-if="completeCart"
+                        :items="completeCart.items"
+                    />
                 </div>
             </div>
         </div>
@@ -35,6 +24,7 @@ import TitleComponent from '@/components/title';
 import ShoppingCartMixin from '@/mixins/get-shopping-cart';
 import { fetchProductsById } from '@/services/products-service';
 import { fetchColors } from '@/services/colors-service';
+import ShoppingCartList from '@/components/shopping-cart';
 import Loading from '../components/loading.vue';
 
 export default {
@@ -42,6 +32,7 @@ export default {
     components: {
         TitleComponent,
         Loading,
+        ShoppingCartList,
     },
     mixins: [ShoppingCartMixin],
     data() {
@@ -56,13 +47,17 @@ export default {
                 return null;
             }
 
-            const completeItems = this.cart.items.map((cartItem) => (
-                {
-                    product: this.products.find((product) => product['@id'] === cartItem.product),
-                    color: this.colors.find((color) => color['@id'] === cartItem.color),
+            const completeItems = this.cart.items.map((cartItem) => {
+                const product = this.products.find((productItem) => productItem['@id'] === cartItem.product);
+                const color = this.colors.find((colorItem) => colorItem['@id'] === cartItem.color);
+
+                return {
+                    id: `${cartItem.product}_${cartItem.color ? cartItem.color : 'none'}`,
+                    product,
+                    color,
                     quantity: cartItem.quantity,
-                }
-            ));
+                };
+            });
 
             return {
                 items: completeItems,

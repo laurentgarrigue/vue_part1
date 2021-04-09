@@ -1,0 +1,69 @@
+<template>
+    <div :class="[$style.component, 'row', 'p-3']">
+        <div class="col-2">
+            {{ item.product.name }}
+        </div>
+        <div class="col-1">
+            <span
+                v-if="item.color"
+                class="color-square"
+                :title="item.color.name"
+                :style="{ backgroundColor: `#${item.color.hexColor}` }"
+            />
+        </div>
+        <div class="col-3">
+            <input
+                :value="item.quantity"
+                class="form-control"
+                type="number"
+                min="1"
+            >
+        </div>
+        <div class="col-3">
+            ${{ totalPrice }}
+        </div>
+        <div class="col-3">
+            <button class="btn btn-info btn-sm">
+                Remove
+            </button>
+        </div>
+    </div>
+</template>
+
+<script>
+import formatPrice from '@/helpers/format-price';
+
+export default {
+    name: 'ShoppingCartItem',
+    props: {
+        item: {
+            type: Object,
+            required: true,
+        },
+    },
+    computed: {
+        totalPrice() {
+            return formatPrice(this.item.product.price * this.item.quantity);
+        },
+    },
+};
+</script>
+
+<style lang="scss" module>
+@import '~styles/variables/colors.scss';
+
+.component :global {
+    border-bottom: 1px solid $light-component-border;
+
+    .color-square {
+        display: inline-block;
+        width: 25px;
+        height: 25px;
+        border-radius: 4px;
+    }
+
+    input {
+        width: 80px;
+    }
+}
+</style>
