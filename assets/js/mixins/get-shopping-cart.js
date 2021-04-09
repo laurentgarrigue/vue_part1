@@ -1,4 +1,7 @@
-import { fetchCart, addItemToCart, getCartTotalItems } from '@/services/cart-service';
+import {
+    fetchCart, addItemToCart,
+    getCartTotalItems, updateCartItemQuantity,
+} from '@/services/cart-service';
 
 export default {
     data() {
@@ -27,6 +30,17 @@ export default {
             });
             this.addToCartLoading = false;
             this.addToCartSuccess = true;
+
+            this.updateCartHeaderTotal();
+        },
+
+        async updateProductQuantity(productId, colorId, quantity) {
+            await updateCartItemQuantity(this.cart, productId, colorId, quantity);
+
+            this.updateCartHeaderTotal();
+        },
+
+        updateCartHeaderTotal() {
             document.getElementById('js-shopping-cart-items')
                 .innerHTML = getCartTotalItems(this.cart).toString();
         },

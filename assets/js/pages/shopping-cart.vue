@@ -81,7 +81,7 @@ export default {
             this.products = productsResponse.data['hydra:member'];
         },
         updateQuantity({ productId, colorId, quantity }) {
-            updateCartItemQuantity(this.cart, productId, colorId, quantity);
+            this.updateProductQuantity(productId, colorId, quantity);
         },
     },
 };
