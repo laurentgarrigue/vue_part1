@@ -12,7 +12,11 @@
                             :key="index"
                         >
                             {{ cartItem.product.name }}
-                            {{ cartItem.color }}
+                            <span
+                                v-if="cartItem.color"
+                                :title="cartItem.color.name"
+                                :style="{ backgroundColor: `#${cartItem.color.hexColor}` }"
+                            />
                             ({{ cartItem.quantity }})
                         </div>
 
@@ -30,6 +34,7 @@
 import TitleComponent from '@/components/title';
 import ShoppingCartMixin from '@/mixins/get-shopping-cart';
 import { fetchProductsById } from '@/services/products-service';
+import { fetchColors } from '@/services/colors-service';
 import Loading from '../components/loading.vue';
 
 export default {
@@ -47,7 +52,7 @@ export default {
     },
     computed: {
         completeCart() {
-            if (!this.cart || !this.products) {
+            if (!this.cart || !this.products || !this.colors) {
                 return null;
             }
 
@@ -66,14 +71,17 @@ export default {
     },
     watch: {
         async cart() {
+            this.loadProducts();
+        },
+    },
+    async created() {
+        this.colors = (await fetchColors()).data['hydra:member'];
+    },
+    methods: {
+        async loadProducts() {
             const productIds = this.cart.items.map((item) => item.product);
             const productsResponse = await fetchProductsById(productIds);
             this.products = productsResponse.data['hydra:member'];
-
-            const colorIds = this.cart.items.map((item) => item.color);
-            const colorsResponse = await fetchColorsById(colorIds);
-            this.colors = colorsResponse.data['hydra:member'];
-
         },
     },
 };
@@ -84,6 +92,15 @@ export default {
 .component :global {
     .content {
         @include light-component;
+    }
+    span {
+        display: inline-block;
+        border-radius: 4px;
+        border: 2px solid transparent;
+        cursor: pointer;
+        width: 25px;
+        height: 25px;
+        margin-right: 10px;
     }
 }
 </style>
