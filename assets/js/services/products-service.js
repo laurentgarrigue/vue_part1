@@ -22,6 +22,17 @@ export function fetchProducts(categoryIri, searchTerm) {
 }
 
 /**
+ * Get a featured product from the API
+ *
+ * @returns {Promise}
+ */
+export function fetchFeaturedProducts() {
+    return axios.get('/api/products', {
+        params: { featured: 1 },
+    });
+}
+
+/**
  * Get a product from the API according to the IRI.
  *
  * @param {string} iri

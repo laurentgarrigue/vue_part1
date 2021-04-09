@@ -1,7 +1,12 @@
 <template>
     <div :class="[$style.component, 'container-fluid']">
         <div class="row">
-            <aside class="col-xs-12 col-lg-3" />
+            <aside class="col-xs-12 col-lg-3">
+                <cart-sidebar
+                    v-if="featuredProduct"
+                    :featured-product="featuredProduct"
+                />
+            </aside>
 
             <div class="col-xs-12 col-lg-9">
                 <title-component text="Shopping Cart" />
@@ -27,10 +32,11 @@
 <script>
 import TitleComponent from '@/components/title';
 import ShoppingCartMixin from '@/mixins/get-shopping-cart';
-import { fetchProductsById } from '@/services/products-service';
+import { fetchProductsById, fetchFeaturedProducts } from '@/services/products-service';
 import { fetchColors } from '@/services/colors-service';
 import ShoppingCartList from '@/components/shopping-cart';
-import Loading from '../components/loading.vue';
+import Loading from '@/components/loading.vue';
+import CartSidebar from '@/components/shopping-cart/cart-sidebar.vue';
 
 export default {
     name: 'ShoppingCart',
@@ -38,12 +44,14 @@ export default {
         TitleComponent,
         Loading,
         ShoppingCartList,
+        CartSidebar,
     },
     mixins: [ShoppingCartMixin],
     data() {
         return {
             products: null,
             colors: null,
+            featuredProduct: null,
         };
     },
     computed: {
@@ -75,6 +83,7 @@ export default {
         },
     },
     async created() {
+        this.loadFeaturedProduct();
         this.colors = (await fetchColors()).data['hydra:member'];
     },
     methods: {
@@ -83,8 +92,19 @@ export default {
             const productsResponse = await fetchProductsById(productIds);
             this.products = productsResponse.data['hydra:member'];
         },
+
         updateQuantity({ productId, colorId, quantity }) {
             this.updateProductQuantity(productId, colorId, quantity);
+        },
+
+        async loadFeaturedProduct() {
+            const featuredProducts = (await fetchFeaturedProducts()).data['hydra:member'];
+
+            if (featuredProducts.length === 0) {
+                return;
+            }
+
+            [this.featuredProduct] = featuredProducts;
         },
     },
 };
