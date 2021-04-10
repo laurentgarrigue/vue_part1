@@ -10,7 +10,7 @@
             :id="id"
             :name="id"
             :value="value"
-            type="text"
+            :type="type"
             :class="{
                 'is-invalid': !isValid,
                 'form-control': true,
@@ -41,6 +41,10 @@ export default {
         errorMessage: {
             type: String,
             default: '',
+        },
+        type: {
+            type: String,
+            default: 'text',
         },
         value: {
             type: String,
